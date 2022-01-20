@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <title>Assinatura digital</title>
+
+
+  </head>
+  <body>
+      <script>
+    class Signature {
+        constructor() {
+          this.color = "#000000";
+          this.sign = false;
+          this.begin_sign = false;
+          this.width_line = 5;
+          this.canvas = document.getElementById('canvas');
+          this.offsetLeft = this.canvas.offsetLeft;
+          this.offsetTop = this.canvas.offsetTop;
+          this.context = canvas.getContext('2d');
+          this.context.lineJoin = 'round';
+          this.context.lineCap = 'round';
+          this.whenMouseDown();
+          this.whenMouseUp();
+          this.whenMouseMove();
+          this.createSignature();
+          this.clearCanvas();
+          this.resetCanvas();
+        }
+      
+        updateMousePosition(mX, mY) {
+          let rect = this.canvas.getBoundingClientRect();
+          let scaleX = this.canvas.width / rect.width;
+          let scaleY = this.canvas.height / rect.height;
+          this.cursorX = (mX - rect.left) * scaleX;
+          this.cursorY = (mY - rect.top) * scaleY;
+        }
+        
+        whenMouseDown() {
+          document.addEventListener("mousedown", ({
+            pageX,
+            pageY
+          }) => {
+            this.sign = true;
+            this.updateMousePosition(pageX, pageY);
+          })
+        }
+      
+        whenMouseUp() {
+          document.addEventListener("mouseup", () => {
+            this.sign = false;
+            this.begin_sign = false;
+          })
+        }
+      
+        whenMouseMove() {
+          this.canvas.addEventListener('mousemove', ({
+            pageX,
+            pageY
+          }) => {
+            if (this.sign) {
+              this.updateMousePosition(pageX, pageY);
+              this.createSignature();
+            }
+          })
+        }
+      
+        createSignature() {
+          if (!this.begin_sign) {
+            this.context.beginPath();
+            this.context.moveTo(this.cursorX, this.cursorY);
+            this.begin_sign = true;
+          } else {
+            this.context.lineTo(this.cursorX, this.cursorY);
+            this.context.strokeStyle = this.color;
+            this.context.lineWidth = this.width_line;
+            this.context.stroke();
+          }
+        }
+      
+        clearCanvas() {
+          this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+      
+        resetCanvas() {
+          document.getElementById("reset").addEventListener("click", () => {
+            this.clearCanvas();
+          })
+        }
+      }
+      
+      document.addEventListener("DOMContentLoaded", event => {
+        new Signature();
+      });
+    </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      
+      <button type="button" class="btn btn-success" data-target="#bookingmodal" data-toggle="modal">Réserver</button>
+      
+      <div aria-labelledby="exampleModalLongTitle" class="modal fade" id="bookingmodal" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Réservation</h5><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+              </div>
+              <div class="modal-body">
+                <div class="guide">
+                  <div class="row item">
+                    <div class="col-md-12 order-md-2">
+                      <h2 class="item-heading">Signature. <span class="text-muted">Signez pour valider votre réservation.</span></h2>
+                        <canvas id="canvas" width="250" height="250">
+                        </canvas>
+                        <form>
+                             <input type="button" id="reset" value="Réinitialiser" class="btn btn-danger">
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+  </body>
+</html>
