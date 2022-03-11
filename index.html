@@ -47,11 +47,16 @@
 
           function verificaMobile(){
             var docelem = document.documentElement;
-            docelem.webkitRequestFullscreen();
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            if( /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+              docelem.webkitRequestFullscreen();
+              screen.orientation.lock("landscape-primary");
+            }
+            if( /iPhone|iPad|iPod/i.test(navigator.userAgent)){
+              docelem.requestFullscreen();
               screen.orientation.lock("landscape-primary");
             }
           }
+
             var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   ctx.strokeStyle = "#222222";
@@ -143,21 +148,34 @@
   }
 
   // Prevent scrolling when touching the canvas
-document.body.addEventListener("touchstart", function (e) {
-  if (e.target == canvas) {
-    e.preventDefault();
-  }
-}, false);
-document.body.addEventListener("touchend", function (e) {
-  if (e.target == canvas) {
-    e.preventDefault();
-  }
-}, false);
-document.body.addEventListener("touchmove", function (e) {
-  if (e.target == canvas) {
-    e.preventDefault();
-  }
-}, false);
+  // Prevent scrolling when touching the canvas
+  document.body.addEventListener("touchstart", function (e) {
+        if (e.target == canvas) {
+            $("#canvas").bind("wheel mousewheel", function (e) {
+                e.preventDefault()
+            });
+            /*e.preventDefault();*/
+
+        }
+    }, false);
+    document.body.addEventListener("touchend", function (e) {
+        if (e.target == canvas) {
+            $("#canvas").bind("wheel mousewheel", function (e) {
+                e.preventDefault()
+            });
+            /*e.preventDefault();*/
+
+        }
+    }, false);
+    document.body.addEventListener("touchmove", function (e) {
+        if (e.target == canvas) {
+            $("#canvas").bind("wheel mousewheel", function (e) {
+                e.preventDefault()
+            });
+
+            /*e.preventDefault();*/
+        }
+    }, false);
 function clearCanvas() {
     canvas.width = canvas.width;
 }
