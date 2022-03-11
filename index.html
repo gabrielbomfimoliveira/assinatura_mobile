@@ -30,14 +30,6 @@
                         <form>
                              <input type="button" id="reset" onclick="clearCanvas()" value="Apagar" class="btn btn-danger">
                         </form>
-                        <textarea>Teste</textarea><br>
-                        <textarea>Teste</textarea><br>
-                        <textarea>Teste</textarea><br>
-                        <textarea>Teste</textarea><br>
-                        <textarea>Teste</textarea><br>
-                        <textarea>Teste</textarea><br>
-                        <textarea>Teste</textarea><br>
-                        <textarea>Teste</textarea>
                     </div>
                   </div>
                 </div>
@@ -141,6 +133,12 @@
       y: touchEvent.touches[0].clientY - rect.top
     };
   }
+
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    $('body').css({
+        "-webkit-transform": "rotate(90deg)"
+    }); 
+}
 
   // Prevent scrolling when touching the canvas
 document.body.addEventListener("touchstart", function (e) {
