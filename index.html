@@ -12,7 +12,7 @@
   </head>
   <body>
       
-      <button  type="button"  onclick="verificaMobile()" class="btn btn-success" data-target="#bookingmodal" data-toggle="modal">Abrir MODAL</button>
+      <button  type="button"  onclick="verificaMobile()" class="btn btn-success" data-target="#bookingmodal" data-toggle="modal">Abrir</button>
       
       <div aria-labelledby="exampleModalLongTitle" class="modal fade" id="bookingmodal" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -52,7 +52,7 @@
               screen.orientation.lock("landscape-primary");
             }
             if( /iPhone|iPad|iPod/i.test(navigator.userAgent)){
-              docelem.requestFullscreen();
+              docelem.webkitRequestFullscreen();
               screen.orientation.lock("landscape-primary");
             }
           }
